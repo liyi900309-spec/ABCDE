@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8"><title>ABCDE 反驳练习</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f7f6f2;--fg:#222;--card:#fff;--mut:#666;--ac:#2f6f5e;--bd:#ddd}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1d1d;--fg:#eee;--card:#262828;--mut:#aaa;--ac:#6fc4ad;--bd:#444}}
+:root[data-theme="dark"]{--bg:#1c1d1d;--fg:#eee;--card:#262828;--mut:#aaa;--ac:#6fc4ad;--bd:#444}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:680px;margin:0 auto;padding:20px 16px 60px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:14px 0}
+.m{color:var(--mut);font-size:14px}
+textarea{width:100%;min-height:76px;border:1px solid var(--bd);border-radius:8px;padding:8px;background:var(--bg);color:var(--fg);font:inherit;margin:4px 0 10px}
+input[type=range]{width:100%;accent-color:var(--ac)}
+button{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-size:16px;cursor:pointer;margin:4px 4px 4px 0}
+button.s{background:none;color:var(--ac);border:1px solid var(--ac)}button:disabled{opacity:.4}
+.steps{display:flex;gap:6px;margin:12px 0}.steps span{flex:1;text-align:center;padding:6px 0;border-radius:8px;border:1px solid var(--bd);font-weight:600}
+.steps .on{background:var(--ac);color:#fff;border-color:var(--ac)}
+label.ck{display:block;padding:2px 0;cursor:pointer}
+.hint{background:var(--bg);border-left:3px solid var(--ac);padding:6px 10px;border-radius:4px;font-size:14px;margin:8px 0}
+.res h3{margin:14px 0 2px;color:var(--ac);font-size:16px}.res p{margin:0;white-space:pre-wrap}
+</style></head><body><main>
+<h1>ABCDE 反驳练习</h1>
+<p class="m">选一件最近让你难受的小事，跟着六步走一遍。内容只在本页面内处理，不会上传，刷新页面后会清空。</p>
+<div class="steps" id="st"></div><div id="box"></div>
+<script>
+const S={a:"",b:"",tags:[],emo:"",emoN:5,beh:"",d1:"",d2:"",d3:"",d4:"",nb:"",act:"",emoN2:5};
+const steps=["A","B","C","D","E","总结"];let cur=0;
+const EX={a:"数学月考只考了62分，比上次还低。",b:"我就是学不会数学，再努力也没用，我什么科目都不行。",tags:["永久","普遍","个人"],emo:"沮丧、自责",emoN:8,beh:"回家后没做数学作业，一直刷手机。",d1:"上学期有一个单元我考过80分；这次错的大多是分式那一章，其他章节其实做对了。",d2:"可能是分式这章基础没补上，也可能是最近复习时间被别的事占了，这些都是可以改的原因。",d3:"就算这次考得不好，最多说明这一章要补，不代表我整个人不行。",d4:"一直想着“我学不会”，只会让我不想做题，对提高成绩没有帮助。",nb:"这次是分式这一章的漏洞导致的，补上它就能进步。",act:"今晚花30分钟整理分式错题，明天找老师问2道不会的题。",emoN2:4};
+function v(id){return document.getElementById(id).value}
+function save(){const g=(k,id)=>{const e=document.getElementById(id);if(e)S[k]=e.value};
+["a","b","emo","beh","d1","d2","d3","d4","nb","act"].forEach(k=>g(k,k));
+const n=document.getElementById("emoN");if(n)S.emoN=+n.value;const n2=document.getElementById("emoN2");if(n2)S.emoN2=+n2.value;
+if(cur==1)S.tags=[...document.querySelectorAll(".ck input:checked")].map(x=>x.value)}
+function ta(id,lab,ph){return `<b>${lab}</b><textarea id="${id}" placeholder="${ph}">${S[id]}</textarea>`}
+function go(n){save();cur=Math.max(0,Math.min(5,n));draw()}
+function draw(){
+document.getElementById("st").innerHTML=steps.map((s,i)=>`<span class="${i==cur?"on":""}">${s}</span>`).join("");
+let h="";
+if(cur==0)h=`<div class="card"><h2>A 不利事件</h2>${ta("a","发生了什么？","只写事实，像摄像机拍到的那样，不带评价")}<div class="hint">例：“数学月考62分”是事实；“我又考砸了”已经带了评价。</div><button class="s" onclick="Object.assign(S,EX);draw()">载入示例</button></div>`;
+if(cur==1)h=`<div class="card"><h2>B 信念</h2>${ta("b","当时你脑子里冒出的第一个想法是什么？","原话写下来，别修饰")}<b>看看这个想法有哪些特点：</b>${[["永久","含“总是/永远/一直”，觉得会一直这样"],["普遍","含“什么都/所有/每次”，觉得影响一切"],["个人","把原因全部归到“我不行/我的错”"]].map(t=>`<label class="ck"><input type="checkbox" value="${t[0]}" ${S.tags.includes(t[0])?"checked":""}> ${t[0]}：${t[1]}</label>`).join("")}<div class="hint">勾得越多，越可能是悲观解释风格在起作用。它只是“一个想法”，不一定是事实。</div></div>`;
+if(cur==2)h=`<div class="card"><h2>C 后果</h2>${ta("emo","你的情绪是什么？","例：沮丧、焦虑、羞愧")}<b>强度：<span id="o1">${S.emoN}</span> / 10</b><input type="range" id="emoN" min="0" max="10" value="${S.emoN}" oninput="o1.textContent=this.value">${ta("beh","你接下来做了什么（或不想做什么）？","行为上的变化")}</div>`;
+if(cur==3)h=`<div class="card"><h2>D 反驳</h2><div class="hint">想象一个人正在无端指责你，你会怎么替自己辩护？用同样的力度，对 B 里的想法逐条反驳。</div>${ta("d1","① 证据：有什么事实支持或反对这个想法？","有没有反例？这个想法有几分是真的？")}${ta("d2","② 替代解释：还有别的原因吗？","尽量找暂时的、局部的、可以改变的原因")}${ta("d3","③ 含义：就算它是真的，又意味着什么？","真的像我想的那样糟吗？最可能的结果是什么？")}${ta("d4","④ 有用性：一直抱着这个想法，对我有帮助吗？","如果没帮助，什么样的想法更有用？")}</div>`;
+if(cur==4)h=`<div class="card"><h2>E 激活</h2>${ta("nb","反驳之后，你的新想法是什么？","更准确、更有用的一句话")}${ta("act","接下来你会做什么？","要具体，今天或明天能完成的一小步")}<b>现在的情绪强度：<span id="o2">${S.emoN2}</span> / 10 <span class="m">（之前是 ${S.emoN}）</span></b><input type="range" id="emoN2" min="0" max="10" value="${S.emoN2}" oninput="o2.textContent=this.value"><div class="hint">强度没降也没关系，能找到一个具体行动，就是在夺回“可控感”。</div></div>`;
+if(cur==5){const r=(t,x)=>`<h3>${t}</h3><p>${x||"（未填写）"}</p>`;
+window.TXT=`A 事件：${S.a}\nB 信念：${S.b}（特点：${S.tags.join("、")||"无"}）\nC 后果：${S.emo}，强度${S.emoN}/10；行为：${S.beh}\nD 反驳：\n①证据：${S.d1}\n②替代解释：${S.d2}\n③含义：${S.d3}\n④有用性：${S.d4}\nE 激活：新想法：${S.nb}；行动：${S.act}；情绪强度${S.emoN}→${S.emoN2}`;
+h=`<div class="card res"><h2>你的练习记录</h2>${r("A 不利事件",S.a)}${r("B 信念（"+(S.tags.join("、")||"未标记特点")+"）",S.b)}${r("C 后果","情绪："+S.emo+"，强度 "+S.emoN+"/10\n行为："+S.beh)}${r("D 反驳","① 证据："+S.d1+"\n② 替代解释："+S.d2+"\n③ 含义："+S.d3+"\n④ 有用性："+S.d4)}${r("E 激活","新想法："+S.nb+"\n行动："+S.act+"\n情绪强度："+S.emoN+" → "+S.emoN2)}<p style="margin-top:14px"><button onclick="navigator.clipboard.writeText(TXT).then(()=>this.textContent='已复制')">复制记录</button><button class="s" onclick="location.reload()">再练一次</button></p></div>`}
+if(cur<5)h+=`<button class="s" onclick="go(cur-1)" ${cur?"":"disabled"}>上一步</button><button onclick="go(cur+1)">${cur==4?"生成总结":"下一步"}</button>`;
+document.getElementById("box").innerHTML=h;scrollTo(0,0)}
+draw();
+</script></main></body></html>
